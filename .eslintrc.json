@@ -11,7 +11,7 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
-    "quotes": ["error", "double"],
+    "quotes": ["error", "single"],
     "no-console": "off",
     "import/prefer-default-export": "off",
     "sort-imports": "off",
@@ -21,6 +21,18 @@
     "class-methods-use-this": "off",
     "import/no-extraneous-dependencies": "off",
     "no-useless-constructor": "off",
-    "no-empty-function": "off"
+    "no-empty-function": "off",
+    "linebreak-style": "off",
+    "object-curly-newline": "off",
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "only-multiline",
+        "objects": "only-multiline",
+        "imports": "only-multiline",
+        "exports": "only-multiline",
+        "functions": "only-multiline"
+      }
+    ]
   }
 }
