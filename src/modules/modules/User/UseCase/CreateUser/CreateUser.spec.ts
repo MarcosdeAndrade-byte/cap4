@@ -1,23 +1,26 @@
-import { Request, Response, NextFunction } from 'express';
-import { describe, test, expect, beforeEach, jest } from '@jest/globals';
-import { ensureAuthenticated } from '../../../../../shared/middlewares/testAuthenticated';
+import 'reflect-metadata';
+import { describe, expect, beforeAll, it } from '@jest/globals';
+import { CreateUserUseCase } from './CreateUserUseCase';
+import { UserRepositoryInMemory } from '../../infra/repository/in-memory/UserRepositoryInMemory';
 
-let req: Request;
+let createUserUseCase: CreateUserUseCase;
+let userRepositoryInMemory: UserRepositoryInMemory;
 
-describe('middleware', () => {
-  beforeEach(() => {
-    req = {} as Request;
+describe('Create user', () => {
+  beforeAll(() => {
+    userRepositoryInMemory = new UserRepositoryInMemory();
+    createUserUseCase = new CreateUserUseCase(userRepositoryInMemory);
   });
 
-  test('should call the next middleware function', () => {
-    req.body = {
-      name: 'teste',
-    };
+  it('should be able to create a new user', async () => {
+    const userId = await createUserUseCase.execute(
+      'teste',
+      20,
+      '12345678910',
+      'teste@com.teste.jest',
+      '123456'
+    );
 
-    const res = {} as Response;
-    const next = jest.fn() as NextFunction;
-
-    ensureAuthenticated(req, res, next);
-    expect(next).toHaveBeenCalled();
+    expect(userId).toHaveProperty('_id');
   });
 });

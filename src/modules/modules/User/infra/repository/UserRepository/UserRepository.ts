@@ -4,6 +4,17 @@ import { IUserDTO } from '../../../DTO/IUserDTO';
 import { IUserRepository } from '../IUserRepository';
 
 class UserRepository implements IUserRepository {
+  async updateRefreshToken(
+    userId: string,
+    refreshToken: string,
+    date: Date
+  ): Promise<void> {
+    const conn = await databaseConnect();
+    const filter = { _id: new ObjectId(userId) };
+    const update = { refreshToken: { refToken: refreshToken, createdAt: date } };
+    conn.collection('users').findOneAndUpdate(filter, { $set: update });
+  }
+
   async delete(id: string): Promise<void> {
     const conn = await databaseConnect();
     conn.collection('users').deleteOne({ _id: new ObjectId(id) });
@@ -38,9 +49,14 @@ class UserRepository implements IUserRepository {
   ): Promise<IUserDTO> {
     try {
       const conn = await databaseConnect();
-      const user = conn
-        .collection('users')
-        .insertOne({ name, age, cpf, email, password }) as unknown as IUserDTO;
+      const user = conn.collection('users').insertOne({
+        name,
+        age,
+        cpf,
+        email,
+        password,
+        refreshToken: { refToken: null, createdAt: null },
+      }) as unknown as IUserDTO;
       return user;
     } catch (error) {
       return error;
@@ -50,9 +66,10 @@ class UserRepository implements IUserRepository {
   async findById(id: string): Promise<IUserDTO> {
     const conn = await databaseConnect();
     const user = conn
-      .collection<IUserDTO>('users')
+      .collection('users')
       .findOne({ _id: new ObjectId(id) });
-    return user;
+
+    return user as unknown as IUserDTO;
   }
 }
 

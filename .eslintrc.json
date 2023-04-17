@@ -24,6 +24,7 @@
     "no-empty-function": "off",
     "linebreak-style": "off",
     "object-curly-newline": "off",
+    "no-underscore-dangle": "off",
     "comma-dangle": [
       "error",
       {

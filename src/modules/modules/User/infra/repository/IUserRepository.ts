@@ -12,6 +12,7 @@ interface IUserRepository {
   updateUser(id: string, age: number, name: string, cpf: string): Promise<void>;
   findById(id: string): Promise<IUserDTO>;
   delete(id: string): Promise<void>;
+  updateRefreshToken(userId: string, refreshToken: string, date: Date): Promise<void>;
 }
 
 export { IUserRepository };
