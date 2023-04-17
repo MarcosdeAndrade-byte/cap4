@@ -8,6 +8,7 @@
     "dev": "ts-node-dev --inspect --ignore-watch node_modules --respawn src/server.ts",
     "find-deadcode": "ts-prune",
     "test": "jest",
+    "lint": "eslint src/**/*.ts",
     "precommit-ls": "lint-staged"
   },
   "lint-staged": {
